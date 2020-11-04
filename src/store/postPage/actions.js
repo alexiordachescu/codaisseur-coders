@@ -7,10 +7,10 @@ export function startLoadingPost() {
   };
 }
 
-export function postFullyFetched(allDataFromFetch) {
+export function postFullyFetched(data) {
   return {
     type: "posts/Ready",
-    payload: allDataFromFetch,
+    payload: data,
   };
 }
 

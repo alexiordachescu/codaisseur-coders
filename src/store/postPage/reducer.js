@@ -7,7 +7,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case "posts/Loading":
-      return { ...state, loading: true };
+      return { loading: true, post: null, comments: [] };
 
     case "posts/Ready": {
       return {
