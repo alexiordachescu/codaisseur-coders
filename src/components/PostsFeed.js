@@ -3,6 +3,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNext5Posts } from "../store/feed/actions";
 import { checkLoading, getPosts } from "../store/feed/selectors";
+import { Link } from "react-router-dom";
 
 export default function PostsFeed() {
   const dispatch = useDispatch();
@@ -20,7 +21,9 @@ export default function PostsFeed() {
       {posts.map((post) => {
         return (
           <div>
-            <h2>{post.title}</h2>
+            <Link to={`/post/${post.id}`}>
+              <h2>{post.title}</h2>
+            </Link>
             <p>{moment(post.createdAt).format("DD-MM-YYYY")}</p>
             {post.tags.map((tag) => {
               return <span>Tags: {tag.tag}</span>;

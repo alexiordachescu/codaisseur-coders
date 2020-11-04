@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = `https://codaisseur-coders-network.herokuapp.com`;
+import { API_URL } from "../config";
 
 export function Loading() {
   return {
