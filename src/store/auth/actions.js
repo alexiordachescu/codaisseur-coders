@@ -1,36 +1,48 @@
 import Axios from "axios";
 
-export function userLoggedIn(token, userDetails) {
+export function userLoggedIn(token, userProfile) {
   return {
     type: "userLoggedIn",
-    payload: { token, userDetails }, // import the dispatched data (sent from thunk) and send it to the reducer
+    payload: { token, userProfile },
   };
 }
 
 export function login(email, password) {
   return async function thunk(dispatch, getState) {
-    const response = await Axios.post(
-      "https://codaisseur-coders-network.herokuapp.com/login", // Get JWT token from here
-      {
-        email: email,
-        password: password,
-      }
-    );
-    console.log("What is response?", response); // Check what I need to store -> I store the data now (jwt):
-    const jwt = response.data;
-    console.log("What is getState?", getState().loginPage.accessToken.jwt); // I retrieve the jwt string from here
+    try {
+      const response = await Axios.post(
+        "https://codaisseur-coders-network.herokuapp.com/login", // Get JWT token from here
+        {
+          email: email,
+          password: password,
+        }
+      );
+      const { jwt } = response.data;
+      console.log("what is jwt?", jwt);
 
-    const check = await Axios.get(
+      const userProfile = await loginValidate(jwt); // Call the login validator!
+      dispatch(userLoggedIn(jwt, userProfile));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+const loginValidate = async (token) => {
+  // retrieve the user info + check the token
+  console.log("I got here");
+  try {
+    const response = await Axios.get(
       "https://codaisseur-coders-network.herokuapp.com/me", // If JWT is correct, retrieve the user profile!
       {
         headers: {
-          Authorization: `Bearer ${getState().loginPage.accessToken.jwt}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
-    console.log("What is check?", check); // Check what I need to store -> Ok, I store the data now (for the user details)
-    const userProfile = check.data;
-
-    dispatch(userLoggedIn(jwt, userProfile)); // dispatch jwt + userProfile to a new action creator
-  };
-}
+    console.log("What is?", response);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

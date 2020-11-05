@@ -8,7 +8,7 @@ export default function loginSliceReducer(state = initialState, action) {
     case "userLoggedIn": {
       return {
         accessToken: action.payload.token,
-        me: action.payload.userDetails,
+        me: action.payload.userProfile,
       };
     }
 

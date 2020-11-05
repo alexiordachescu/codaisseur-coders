@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../store/auth/actions";
+import { login, loginValidate } from "../store/auth/actions";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,8 +10,8 @@ export default function LoginPage() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log("TODO login with:", email, password);
     dispatch(login(email, password));
+    // dispatch(loginValidate());
   }
 
   return (
