@@ -16,7 +16,7 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h3>Login</h3>
       <form onSubmit={handleSubmit}>
         <p>
           <label>
